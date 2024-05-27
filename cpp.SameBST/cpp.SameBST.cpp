@@ -5,12 +5,12 @@ typedef struct TreeNode
 {
 	int data;
 	bool flag;
-	TreeNode* left;
-	TreeNode* right;
+	TreeNode* Left;
+	TreeNode* Right;
 	TreeNode(int d) {
 		data = d;
 		flag = false;
-		left = right = NULL;
+		Left = Right = NULL;
 	}
 }*tree;
 
@@ -55,9 +55,9 @@ void insertNode(tree& root, int x) {
 	}
 	else {
 		if (x < root->data)
-			insertNode(root->left, x);
+			insertNode(root->Left, x);
 		else
-			insertNode(root->right, x);
+			insertNode(root->Right, x);
 	}
 }
 
@@ -76,16 +76,16 @@ bool findNode(tree root, int x) {
 	}
 
 	if (root->data < x) {
-		return findNode(root->right, x);
+		return findNode(root->Right, x);
 	}
 	else {
-		return findNode(root->left, x);
+		return findNode(root->Left, x);
 	}
 }
 
 void clearTree(tree root) {
 	if (root == NULL) return;
 	root->flag = false;
-	clearTree(root->left);
-	clearTree(root->right);
+	clearTree(root->Left);
+	clearTree(root->Right);
 }
