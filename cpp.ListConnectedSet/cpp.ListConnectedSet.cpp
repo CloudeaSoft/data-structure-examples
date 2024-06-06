@@ -18,7 +18,7 @@ typedef struct GNode* PtrToGNode;
 struct GNode {
 	int Nv;
 	int Ne;
-	int G[MaxVertexNum][MaxVertexNum];
+	int Map[MaxVertexNum][MaxVertexNum];
 	DataType Data[MaxVertexNum];
 };
 typedef PtrToGNode MGraph;
@@ -27,7 +27,7 @@ MGraph CreateGraph(int VertexNum);
 void InsertEdge(MGraph Graph, Edge E);
 MGraph BuildGraph();
 void ResetVisit(MGraph Graph);
-void BFS(MGraph Graph);
+void SDS_BFS(MGraph Graph);
 int FindHead(MGraph Graph);
 void BFSSingle(MGraph Graph, int index);
 void DFS(MGraph Graph);
@@ -38,7 +38,7 @@ int main()
 	MGraph m = BuildGraph();
 	DFS(m);
 	ResetVisit(m);
-	BFS(m);
+	SDS_BFS(m);
 }
 
 MGraph CreateGraph(int VertexNum)
@@ -52,7 +52,7 @@ MGraph CreateGraph(int VertexNum)
 
 	for (V = 0; V < Graph->Nv; V++)
 		for (W = 0; W < Graph->Nv; W++)
-			Graph->G[V][W] = INFINITY;
+			Graph->Map[V][W] = INFINITY;
 
 	return Graph;
 }
@@ -60,9 +60,9 @@ MGraph CreateGraph(int VertexNum)
 void InsertEdge(MGraph Graph, Edge E)
 {
 	/* ≤Â»Î±ﬂ <V1, V2> */
-	Graph->G[E->V1][E->V2] = 1;
+	Graph->Map[E->V1][E->V2] = 1;
 	/* ≤Â»Î±ﬂ <V2, V1> */
-	Graph->G[E->V2][E->V1] = 1;
+	Graph->Map[E->V2][E->V1] = 1;
 }
 
 MGraph BuildGraph()
@@ -100,7 +100,7 @@ int FindHead(MGraph Graph) {
 	return -1;
 }
 
-void BFS(MGraph Graph) {
+void SDS_BFS(MGraph Graph) {
 	if (Graph->Nv <= 0) {
 		return;
 	}
@@ -138,7 +138,7 @@ void BFSSingle(MGraph Graph, int index) {
 		cout << a << " ";
 
 		for (int i = 0; i < Graph->Nv; i++) {
-			if (Graph->G[a][i] == 1 // Node is connected
+			if (Graph->Map[a][i] == 1 // Node is connected
 				&& Graph->Data[i] == 0) // Node hasn't been visited
 			{
 				outputQueue.push(i);
@@ -173,7 +173,7 @@ void DFSSingle(MGraph Graph, int index) {
 
 	cout << index << " ";
 	for (int i = 0; i < Graph->Nv; i++)
-		if (Graph->G[index][i] == 1 // Node is connected
+		if (Graph->Map[index][i] == 1 // Node is connected
 			&& Graph->Data[i] == 0) // Node hasn't been visited
 			DFSSingle(Graph, i);
 }
